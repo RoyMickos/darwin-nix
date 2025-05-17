@@ -25,10 +25,60 @@
       nixpkgs.config.allowUnfree = true;
       environment.systemPackages =
         [ 
+	  pkgs.aerospace
+	  pkgs.ast-grep
+	  pkgs.awscli2
+	  pkgs.bat
+	    #	  pkgs.bitwarden-cli fails
+	  pkgs.cowsay
+	  pkgs.curlie
+	  pkgs.delta
+	  pkgs.difftastic
+	  pkgs.fabric-ai
+	  pkgs.fd
+	  pkgs.figlet
+	  pkgs.fzf
+	  pkgs.gawk
+	  pkgs.glow
+	  pkgs.gnupg
+	  pkgs.go
+	  pkgs.google-cloud-sdk
+	  pkgs.graphicsmagick
+	  pkgs.graphviz
+	  pkgs.grpcurl
+	  pkgs.htop
+	  pkgs.jq
+	  pkgs.lazygit
+	  pkgs.lf
+	  pkgs.lima
+	  pkgs.lsd
+	  pkgs.luajitPackages.luarocks
+	  pkgs.marksman
+	  pkgs.marp-cli
 	  pkgs.mkalias
+	  pkgs.neofetch
 	  pkgs.neovim
+	  pkgs.pass
+	  pkgs.plantuml
+	  pkgs.pipx
+	  pkgs.podman
+	  pkgs.podman-tui
+	  pkgs.postgresql
+	  pkgs.pwgen
+	  pkgs.ripgrep
+	  pkgs.scc
+	  pkgs.sox
+	  pkgs.sshs
+	  pkgs.starship
 	  pkgs.stow
+	  pkgs.taskwarrior3
+	  pkgs.taskwarrior-tui
+	  pkgs.termshark
+	  pkgs.tig
+	  pkgs.tldr
+	  pkgs.tree
 	  pkgs.tmux
+	  pkgs.zoxide
         ];
 
       fonts.packages = [
@@ -40,18 +90,33 @@
       homebrew = {
         enable = true;
 	brews = [
+	  "asdf"
           "mas"
 	];
+	taps = [
+          "homebrew/core"
+          "homebrew/cask"
+        ];
 	casks = [
+	  "1Password"
+	  "1Password-cli"
           "alacritty"
 	  "anki"
+	  "bitwarden"
+	  "chromedriver"
+	  "drawio"
+	  "gimp"
+	  "karabiner-elements"
 	  "obsidian"
-	  "slack"
+	  "podman-desktop"
+	  "raycast"
 	  "telegram"
 	];
 	masApps = {
           # "Xcode" = 497799835;
 	};
+	onActivation.autoUpdate = true;
+	onActivation.upgrade = true;
       };
 
       system.activationScripts.applications.text = ''
@@ -71,6 +136,26 @@
       # Used for backwards compatibility, please read the changelog before changing.
       # $ darwin-rebuild changelog
       system.stateVersion = 6;
+      
+      system.defaults = {
+        dock.autohide = true;
+	dock.persistent-apps = [
+	  "/System/Applications/Launchpad.app"
+          "Applications/Alacritty.app"
+	  "/Applications/Obsidian.app"
+	  "/Applications/Anki.app"
+	  "/Applications/Safari.app"
+	  "/System/Applications/Mail.app"
+	  "/System/Applications/Calendar.app"
+	  "/Applications/Slack.app"
+	];
+	# for aerospace
+	spaces.spans-displays = true;
+	NSGlobalDomain.AppleICUForce24HourTime = true;
+	finder.FXPreferredViewStyle = "clmv";
+      };
+
+      services.aerospace.enable = false;
 
       # The platform the configuration will be used on.
       nixpkgs.hostPlatform = "aarch64-darwin";
