@@ -26,6 +26,7 @@
       environment.systemPackages =
         [ 
 	  pkgs.aerospace
+	  pkgs.aider-chat
 	  pkgs.ast-grep
 	  pkgs.awscli2
 	  pkgs.bat
@@ -34,6 +35,8 @@
 	  pkgs.curlie
 	  pkgs.delta
 	  pkgs.difftastic
+	  pkgs.direnv
+	  pkgs.docker
 	  pkgs.fabric-ai
 	  pkgs.fd
 	  pkgs.figlet
@@ -75,6 +78,7 @@
 	  pkgs.taskwarrior-tui
 	  pkgs.termshark
 	  pkgs.tig
+	  pkgs.timewarrior
 	  pkgs.tldr
 	  pkgs.tree
 	  pkgs.tmux
@@ -136,7 +140,9 @@
       # Used for backwards compatibility, please read the changelog before changing.
       # $ darwin-rebuild changelog
       system.stateVersion = 6;
-      
+     
+      system.primaryUser = "roy.mickos";
+    
       system.defaults = {
         dock.autohide = true;
 	dock.persistent-apps = [

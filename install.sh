@@ -14,3 +14,5 @@ mkdir -p .tmux/plugins
 git clone https://github.com/tmux-plugins/tpm .tmux/plugins/tpm
 # needs node
 brew install bitwarden-cli
+pipx install chromadb@0.6.3
+pipx install vectorcode
