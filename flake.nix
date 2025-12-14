@@ -5,6 +5,10 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+
+    # limawm 1.1.1 is broken on mac, fix expected in 1.1.2
+    # nixpkgs-old-lima.url = "github:NixOS/nixpkgs/59138c7667b7970d205d6a05a8bfa2d78caa3643";
+
     mac-app-util.url = "github:hraban/mac-app-util";
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
     homebrew-core = {
@@ -20,20 +24,28 @@
   outputs = inputs@{ self, nix-darwin, nixpkgs, mac-app-util, nix-homebrew, homebrew-core, homebrew-cask }:
   let
     configuration = { pkgs, config, ... }: {
+ #      nixpkgs.overlays = [
+	# (final: super: {
+	#   # Replace 'your-application-name' with the actual package name
+	#   # and '.your-application-name' with its attribute path in the old nixpkgs
+	#   lima = nixpkgs-old-lima.legacyPackages.${pkgs.system}.pkgs.lima;
+	# })
+ #      ];
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
       nixpkgs.config.allowUnfree = true;
       environment.systemPackages =
         [ 
-	  pkgs.aerospace
-	  pkgs.aider-chat
+	    # pkgs.aider-chat
 	  pkgs.ast-grep
 	  pkgs.awscli2
+	    # pkgs.aws-sam-cli
 	  pkgs.bat
 	    #	  pkgs.bitwarden-cli fails
 	  pkgs.cowsay
 	  pkgs.curlie
 	  pkgs.delta
+	  pkgs.devcontainer
 	  pkgs.difftastic
 	  pkgs.direnv
 	  pkgs.docker
@@ -42,6 +54,7 @@
 	  pkgs.figlet
 	  pkgs.fzf
 	  pkgs.gawk
+	  pkgs.gemini-cli-bin
 	  pkgs.glow
 	  pkgs.gnupg
 	  pkgs.go
@@ -51,6 +64,7 @@
 	  pkgs.grpcurl
 	  pkgs.htop
 	  pkgs.jq
+	  pkgs.kanata
 	  pkgs.lazygit
 	  pkgs.lf
 	  pkgs.lima
@@ -59,19 +73,24 @@
 	  pkgs.marksman
 	  pkgs.marp-cli
 	  pkgs.mkalias
+	    # pkgs.mutagen
 	  pkgs.neofetch
 	  pkgs.neovim
+	  pkgs.opencode
 	  pkgs.pass
 	  pkgs.plantuml
 	  pkgs.pipx
 	  pkgs.podman
+	  pkgs.podman-compose
 	  pkgs.podman-tui
 	  pkgs.postgresql
 	  pkgs.pwgen
 	  pkgs.ripgrep
 	  pkgs.scc
+	  pkgs.sops
 	  pkgs.sox
 	  pkgs.sshs
+	  pkgs.ssm-session-manager-plugin  # session manager plugin for aws cli
 	  pkgs.starship
 	  pkgs.stow
 	  pkgs.taskwarrior3
@@ -82,6 +101,7 @@
 	  pkgs.tldr
 	  pkgs.tree
 	  pkgs.tmux
+	  pkgs.uv
 	  pkgs.zoxide
         ];
 
@@ -160,8 +180,6 @@
 	NSGlobalDomain.AppleICUForce24HourTime = true;
 	finder.FXPreferredViewStyle = "clmv";
       };
-
-      services.aerospace.enable = false;
 
       # The platform the configuration will be used on.
       nixpkgs.hostPlatform = "aarch64-darwin";
