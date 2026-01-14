@@ -129,6 +129,7 @@
 	  "bitwarden"
 	  "chromedriver"
 	  "drawio"
+	  "firefox"
 	  "gimp"
 	  "karabiner-elements"
 	  "obsidian"
