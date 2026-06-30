@@ -19,9 +19,13 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
+    homebrew-hunk = {
+      url = "github:modem-dev/homebrew-tap";
+      flake = false;
+    };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, mac-app-util, nix-homebrew, homebrew-core, homebrew-cask }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, mac-app-util, nix-homebrew, homebrew-core, homebrew-cask, homebrew-hunk }:
   let
     configuration = { pkgs, config, ... }: {
  #      nixpkgs.overlays = [
@@ -36,12 +40,13 @@
       nixpkgs.config.allowUnfree = true;
       environment.systemPackages =
         [ 
-	    # pkgs.aider-chat
-	  pkgs.ast-grep
+	    # pkgs.ast-grep -- temporarily disabled due to test errors
+	  pkgs.age
+	  pkgs.asdf-vm
 	  pkgs.awscli2
-	    # pkgs.aws-sam-cli
 	  pkgs.bat
-	    #	  pkgs.bitwarden-cli fails
+	  pkgs.bun
+	  pkgs.claude-code
 	  pkgs.cowsay
 	  pkgs.curlie
 	  pkgs.delta
@@ -50,11 +55,14 @@
 	  pkgs.direnv
 	  pkgs.docker
 	  pkgs.fabric-ai
+	  pkgs.fastfetch
 	  pkgs.fd
 	  pkgs.figlet
 	  pkgs.fzf
 	  pkgs.gawk
 	  pkgs.gemini-cli-bin
+	  pkgs.gh
+	  pkgs.ghostty-bin
 	  pkgs.glow
 	  pkgs.gnupg
 	  pkgs.go
@@ -73,15 +81,13 @@
 	  pkgs.marksman
 	  pkgs.marp-cli
 	  pkgs.mkalias
-	    # pkgs.mutagen
-	  pkgs.neofetch
 	  pkgs.neovim
 	  pkgs.opencode
 	  pkgs.pass
 	  pkgs.plantuml
 	  pkgs.pipx
-	  pkgs.podman
-	  pkgs.podman-compose
+	  # pkgs.podman
+	  # pkgs.podman-compose
 	  pkgs.podman-tui
 	  pkgs.postgresql
 	  pkgs.pwgen
@@ -95,13 +101,16 @@
 	  pkgs.stow
 	  pkgs.taskwarrior3
 	  pkgs.taskwarrior-tui
+	  pkgs.television
 	  pkgs.termshark
 	  pkgs.tig
 	  pkgs.timewarrior
 	  pkgs.tldr
 	  pkgs.tree
+	  pkgs.tree-sitter
 	  pkgs.tmux
 	  pkgs.uv
+	  pkgs.wget
 	  pkgs.zoxide
         ];
 
@@ -115,6 +124,7 @@
         enable = true;
 	brews = [
 	  "asdf"
+          "hunk"
           "mas"
 	];
 	taps = [
@@ -124,7 +134,6 @@
 	casks = [
 	  "1Password"
 	  "1Password-cli"
-          "alacritty"
 	  "anki"
 	  "bitwarden"
 	  "chromedriver"
@@ -134,8 +143,11 @@
 	  "karabiner-elements"
 	  "obsidian"
 	  "podman-desktop"
+	  "rancher"
 	  "raycast"
 	  "telegram"
+          "alacritty"
+          "hammerspoon"
 	];
 	masApps = {
           # "Xcode" = 497799835;
@@ -152,8 +164,29 @@
       # Necessary for using flakes on this system.
       nix.settings.experimental-features = "nix-command flakes";
 
+      # Deduplicate identical files in /nix/store
+      nix.settings.auto-optimise-store = true;
+
+      # Optional but useful: avoid keeping unnecessary outputs
+      nix.settings.keep-outputs = false;
+      nix.settings.keep-derivations = false;
+
+      nix.settings.download-buffer-size = 134217728; # 128 MB
+	
+      # Garbage collection
+      nix.gc = {
+	automatic = true;
+
+	# Weekly cleanup (low friction)
+	interval = { Weekday = 0; Hour = 3; Minute = 0; };
+
+	# Keep only recent stuff
+	options = "--delete-older-than 7d";
+      };
+
       # Enable alternative shell support in nix-darwin.
       # programs.fish.enable = true;
+      programs.zsh.enable = true;
 
       # Set Git commit hash for darwin-version.
       system.configurationRevision = self.rev or self.dirtyRev or null;
@@ -202,6 +235,7 @@
 	    taps = {
               "homebrew/homebrew-core" = homebrew-core;
 	      "homebrew/homebrew-cask" = homebrew-cask;
+	      "modem-dev/homebrew-tap" = homebrew-hunk;
 	    };
 	    mutableTaps = false;
 	  };

@@ -3,16 +3,16 @@
     "brew-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1763638478,
-        "narHash": "sha256-n/IMowE9S23ovmTkKX7KhxXC2Yq41EAVFR2FBIXPcT8=",
+        "lastModified": 1781226006,
+        "narHash": "sha256-w4ZTuOnhYiDxjaynrMTASzp802QblBWmo3wpB8wVN4Y=",
         "owner": "Homebrew",
         "repo": "brew",
-        "rev": "fbfdbaba008189499958a7aeb1e2c36ab10c067d",
+        "rev": "109191be4988470b51a60a5ef1998520aa24c01b",
         "type": "github"
       },
       "original": {
         "owner": "Homebrew",
-        "ref": "5.0.3",
+        "ref": "6.0.1",
         "repo": "brew",
         "type": "github"
       }
@@ -96,11 +96,11 @@
     "homebrew-cask": {
       "flake": false,
       "locked": {
-        "lastModified": 1767763803,
-        "narHash": "sha256-7Ybde44VaTSXdIQewVonoxrnUxVpjHfzKovAy23cjDo=",
+        "lastModified": 1782793557,
+        "narHash": "sha256-2WEGm7IU+dUz7qfy/+eENFEokV+0Og69WVUGhEPsV2E=",
         "owner": "homebrew",
         "repo": "homebrew-cask",
-        "rev": "cd401b0c98ba1a8ba973d616947a857c6af445f1",
+        "rev": "94bf467564ff145b8b2723ba69441c18d86ae0f4",
         "type": "github"
       },
       "original": {
@@ -112,16 +112,32 @@
     "homebrew-core": {
       "flake": false,
       "locked": {
-        "lastModified": 1767767580,
-        "narHash": "sha256-bM3++hDWOfF8J1prZ72u+2eTMnpdN94sQ8BDTHMNhKs=",
+        "lastModified": 1782794529,
+        "narHash": "sha256-RlPl3uNabHQkJDRdiYIrrhubK1nBXfByOIRp24UFM9o=",
         "owner": "homebrew",
         "repo": "homebrew-core",
-        "rev": "9d68d060f35dfeddd08e8eb8ad1b43921d5e7f58",
+        "rev": "d0781c070584a556f3c97a352defeb378de9c4f8",
         "type": "github"
       },
       "original": {
         "owner": "homebrew",
         "repo": "homebrew-core",
+        "type": "github"
+      }
+    },
+    "homebrew-hunk": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1781375457,
+        "narHash": "sha256-w/2Rj42gHTvm5rprt3eL/uCGuo3oAprzJ9KokvzaRh8=",
+        "owner": "modem-dev",
+        "repo": "homebrew-tap",
+        "rev": "d8e2ff95f670ca4d5e40127a05c48880b4e1d055",
+        "type": "github"
+      },
+      "original": {
+        "owner": "modem-dev",
+        "repo": "homebrew-tap",
         "type": "github"
       }
     },
@@ -155,11 +171,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1767718503,
-        "narHash": "sha256-V+VkFs0aSG0ca8p/N3gib7FAf4cq9jyr5Gm+ZBrHQpo=",
+        "lastModified": 1781761792,
+        "narHash": "sha256-rCPytmKNjctLloB6UgK5CRrHSwV4b0ygxtJLPPp8R14=",
         "owner": "nix-darwin",
         "repo": "nix-darwin",
-        "rev": "9f48ffaca1f44b3e590976b4da8666a9e86e6eb1",
+        "rev": "a1fa429e945becaf60468600daf649be4ba0350c",
         "type": "github"
       },
       "original": {
@@ -174,11 +190,11 @@
         "brew-src": "brew-src"
       },
       "locked": {
-        "lastModified": 1764473698,
-        "narHash": "sha256-C91gPgv6udN5WuIZWNehp8qdLqlrzX6iF/YyboOj6XI=",
+        "lastModified": 1781389246,
+        "narHash": "sha256-ORqLAo/hoJdsZC7UPAuEHev6S0+XIqKEC7vjo5prz1k=",
         "owner": "zhaofengli",
         "repo": "nix-homebrew",
-        "rev": "6a8ab60bfd66154feeaa1021fc3b32684814a62a",
+        "rev": "de7953a08ed4bb9245be043e468561c17b89130d",
         "type": "github"
       },
       "original": {
@@ -268,11 +284,11 @@
     },
     "nixpkgs_5": {
       "locked": {
-        "lastModified": 1767364772,
-        "narHash": "sha256-fFUnEYMla8b7UKjijLnMe+oVFOz6HjijGGNS1l7dYaQ=",
+        "lastModified": 1782731455,
+        "narHash": "sha256-weCjCyph1saaHwUdjTk6AAFn/w2riVwOimn/qZMFxKY=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "16c7794d0a28b5a37904d55bcca36003b9109aaa",
+        "rev": "9c4c05a947a91dc14625265fab505fb695e93218",
         "type": "github"
       },
       "original": {
@@ -286,6 +302,7 @@
       "inputs": {
         "homebrew-cask": "homebrew-cask",
         "homebrew-core": "homebrew-core",
+        "homebrew-hunk": "homebrew-hunk",
         "mac-app-util": "mac-app-util",
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",
