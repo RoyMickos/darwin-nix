@@ -5,12 +5,15 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-
-    # limawm 1.1.1 is broken on mac, fix expected in 1.1.2
-    # nixpkgs-old-lima.url = "github:NixOS/nixpkgs/59138c7667b7970d205d6a05a8bfa2d78caa3643";
-
     mac-app-util.url = "github:hraban/mac-app-util";
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
+    nix-homebrew.inputs.brew-src.follows = "brew-src";
+    nix-homebrew.inputs.homebrew-core.follows = "homebrew-core";
+    nix-homebrew.inputs.homebrew-cask.follows = "homebrew-cask";
+    brew-src = {
+      url = "github:Homebrew/brew";
+      flake = false;
+    };
     homebrew-core = {
       url = "github:homebrew/homebrew-core";
       flake = false;
@@ -25,7 +28,7 @@
     };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, mac-app-util, nix-homebrew, homebrew-core, homebrew-cask, homebrew-hunk }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, mac-app-util, nix-homebrew, brew-src, homebrew-core, homebrew-cask, homebrew-hunk }:
   let
     configuration = { pkgs, config, ... }: {
  #      nixpkgs.overlays = [
@@ -40,7 +43,7 @@
       nixpkgs.config.allowUnfree = true;
       environment.systemPackages =
         [ 
-	    # pkgs.ast-grep -- temporarily disabled due to test errors
+	  pkgs.ast-grep
 	  pkgs.age
 	  pkgs.asdf-vm
 	  pkgs.awscli2
@@ -86,8 +89,8 @@
 	  pkgs.pass
 	  pkgs.plantuml
 	  pkgs.pipx
-	  # pkgs.podman
-	  # pkgs.podman-compose
+	  pkgs.podman
+	  pkgs.podman-compose
 	  pkgs.podman-tui
 	  pkgs.postgresql
 	  pkgs.pwgen
@@ -109,6 +112,7 @@
 	  pkgs.tree
 	  pkgs.tree-sitter
 	  pkgs.tmux
+	  pkgs.tuicr
 	  pkgs.uv
 	  pkgs.wget
 	  pkgs.zoxide
@@ -124,6 +128,7 @@
         enable = true;
 	brews = [
 	  "asdf"
+	  "herdr"
           "hunk"
           "mas"
 	];
@@ -141,11 +146,13 @@
 	  "firefox"
 	  "gimp"
 	  "karabiner-elements"
+	  "little-snitch"
 	  "obsidian"
 	  "podman-desktop"
 	  "rancher"
 	  "raycast"
 	  "telegram"
+	  "vmlx"
           "alacritty"
           "hammerspoon"
 	];
