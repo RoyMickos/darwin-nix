@@ -57,13 +57,15 @@
 	  pkgs.difftastic
 	  pkgs.direnv
 	  pkgs.docker
+	  pkgs.docker-sbx
+	  pkgs.efm-langserver
 	  pkgs.fabric-ai
 	  pkgs.fastfetch
 	  pkgs.fd
 	  pkgs.figlet
 	  pkgs.fzf
 	  pkgs.gawk
-	  pkgs.gemini-cli-bin
+	  # pkgs.gemini-cli-bin
 	  pkgs.gh
 	  pkgs.ghostty-bin
 	  pkgs.glow
@@ -75,7 +77,10 @@
 	  pkgs.grpcurl
 	  pkgs.htop
 	  pkgs.jq
+	  pkgs.k9s
 	  pkgs.kanata
+	  pkgs.kubectl
+	  pkgs.kustomize
 	  pkgs.lazygit
 	  pkgs.lf
 	  pkgs.lima
@@ -88,6 +93,7 @@
 	  pkgs.opencode
 	  pkgs.pass
 	  pkgs.plantuml
+	  pkgs.pi-coding-agent
 	  pkgs.pipx
 	  pkgs.podman
 	  pkgs.podman-compose
@@ -114,6 +120,7 @@
 	  pkgs.tmux
 	  pkgs.tuicr
 	  pkgs.uv
+	  pkgs.upcloud-cli
 	  pkgs.wget
 	  pkgs.zoxide
         ];
