@@ -6,6 +6,7 @@
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     mac-app-util.url = "github:hraban/mac-app-util";
+    workmux.url = "github:raine/workmux";
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
     nix-homebrew.inputs.brew-src.follows = "brew-src";
     nix-homebrew.inputs.homebrew-core.follows = "homebrew-core";
@@ -28,7 +29,7 @@
     };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, mac-app-util, nix-homebrew, brew-src, homebrew-core, homebrew-cask, homebrew-hunk }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, mac-app-util, nix-homebrew, brew-src, homebrew-core, homebrew-cask, homebrew-hunk, workmux }:
   let
     configuration = { pkgs, config, ... }: {
  #      nixpkgs.overlays = [
@@ -88,6 +89,7 @@
 	  pkgs.luajitPackages.luarocks
 	  pkgs.marksman
 	  pkgs.marp-cli
+    pkgs.mise
 	  pkgs.mkalias
 	  pkgs.neovim
 	  pkgs.opencode
@@ -101,6 +103,7 @@
 	  pkgs.postgresql
 	  pkgs.pwgen
 	  pkgs.ripgrep
+    pkgs.rustup
 	  pkgs.scc
 	  pkgs.sops
 	  pkgs.sox
@@ -122,6 +125,7 @@
 	  pkgs.uv
 	  pkgs.upcloud-cli
 	  pkgs.wget
+	  workmux.packages.${pkgs.system}.default
 	  pkgs.zoxide
         ];
 
@@ -136,13 +140,13 @@
 	brews = [
 	  "asdf"
 	  "herdr"
-          "hunk"
-          "mas"
+    "hunk"
+    "mas"
 	];
 	taps = [
-          "homebrew/core"
-          "homebrew/cask"
-        ];
+  "homebrew/core"
+  "homebrew/cask"
+  ];
 	casks = [
 	  "1Password"
 	  "1Password-cli"
@@ -160,8 +164,8 @@
 	  "raycast"
 	  "telegram"
 	  "vmlx"
-          "alacritty"
-          "hammerspoon"
+    "alacritty"
+    "hammerspoon"
 	];
 	masApps = {
           # "Xcode" = 497799835;
