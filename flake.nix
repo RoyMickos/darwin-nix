@@ -3,14 +3,24 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    # TEMPORARY: opencode 1.18.30 in nixpkgs-unstable is buggy, so opencode is
+    # pinned to 1.18.18 from this revision (the commit right before the
+    # 1.18.18 -> 1.18.21 bump). Drop this input and the overlay below once a
+    # working version lands upstream.
+    # nixpkgs-opencode.url = "github:NixOS/nixpkgs/ece2d49743325ac9c29686fd1d2469d63b34eb30";
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     mac-app-util.url = "github:hraban/mac-app-util";
-    workmux.url = "github:raine/workmux";
+    workmux = {
+       url =  "github:raine/workmux";
+       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    jscpd = {
+       url = "github:kucherenko/jscpd";
+       inputs.nixpkgs.follows = "nixpkgs";
+    };
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
     nix-homebrew.inputs.brew-src.follows = "brew-src";
-    nix-homebrew.inputs.homebrew-core.follows = "homebrew-core";
-    nix-homebrew.inputs.homebrew-cask.follows = "homebrew-cask";
     brew-src = {
       url = "github:Homebrew/brew";
       flake = false;
@@ -29,16 +39,16 @@
     };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, mac-app-util, nix-homebrew, brew-src, homebrew-core, homebrew-cask, homebrew-hunk, workmux }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, mac-app-util, nix-homebrew, brew-src, homebrew-core, homebrew-cask, homebrew-hunk, workmux, jscpd }:
   let
     configuration = { pkgs, config, ... }: {
- #      nixpkgs.overlays = [
-	# (final: super: {
-	#   # Replace 'your-application-name' with the actual package name
-	#   # and '.your-application-name' with its attribute path in the old nixpkgs
-	#   lima = nixpkgs-old-lima.legacyPackages.${pkgs.system}.pkgs.lima;
-	# })
- #      ];
+      # nixpkgs.overlays = [
+      #   # TEMPORARY: hold opencode at 1.18.18 until the newer versions are fixed.
+      #   # See the nixpkgs-opencode input above.
+      #   (final: prev: {
+      #     opencode = nixpkgs-opencode.legacyPackages.${prev.stdenv.hostPlatform.system}.opencode;
+      #   })
+      # ];
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
       nixpkgs.config.allowUnfree = true;
@@ -125,9 +135,10 @@
 	  pkgs.uv
 	  pkgs.upcloud-cli
 	  pkgs.wget
-	  workmux.packages.${pkgs.system}.default
 	  pkgs.zoxide
-        ];
+    # jscpd.packages.${pkgs.stdenv.hostPlatform.system}.jscpd
+	  workmux.packages.${pkgs.stdenv.hostPlatform.system}.default
+  ];
 
       fonts.packages = [
 	pkgs.nerd-fonts.jetbrains-mono
