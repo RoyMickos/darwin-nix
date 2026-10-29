@@ -15,6 +15,10 @@
        url =  "github:raine/workmux";
        inputs.nixpkgs.follows = "nixpkgs";
     };
+    aven = {
+       url = "https://github.com/raine/aven/releases/latest/download/aven-nix.tar.gz";
+       inputs.nixpkgs.follows = "nixpkgs";
+    };
     jscpd = {
        url = "github:kucherenko/jscpd";
        inputs.nixpkgs.follows = "nixpkgs";
@@ -37,9 +41,13 @@
       url = "github:modem-dev/homebrew-tap";
       flake = false;
     };
+    homebrew-docker = {
+      url = "github:docker/homebrew-tap";
+      flake = false;
+    };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, mac-app-util, nix-homebrew, brew-src, homebrew-core, homebrew-cask, homebrew-hunk, workmux, jscpd }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, mac-app-util, nix-homebrew, brew-src, homebrew-core, homebrew-cask, homebrew-hunk, homebrew-docker, workmux, aven, jscpd }:
   let
     configuration = { pkgs, config, ... }: {
       # nixpkgs.overlays = [
@@ -68,7 +76,6 @@
 	  pkgs.difftastic
 	  pkgs.direnv
 	  pkgs.docker
-	  pkgs.docker-sbx
 	  pkgs.efm-langserver
 	  pkgs.fabric-ai
 	  pkgs.fastfetch
@@ -121,12 +128,9 @@
 	  pkgs.ssm-session-manager-plugin  # session manager plugin for aws cli
 	  pkgs.starship
 	  pkgs.stow
-	  pkgs.taskwarrior3
-	  pkgs.taskwarrior-tui
 	  pkgs.television
 	  pkgs.termshark
 	  pkgs.tig
-	  pkgs.timewarrior
 	  pkgs.tldr
 	  pkgs.tree
 	  pkgs.tree-sitter
@@ -138,6 +142,7 @@
 	  pkgs.zoxide
     # jscpd.packages.${pkgs.stdenv.hostPlatform.system}.jscpd
 	  workmux.packages.${pkgs.stdenv.hostPlatform.system}.default
+	  aven.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
       fonts.packages = [
@@ -177,6 +182,9 @@
 	  "vmlx"
     "alacritty"
     "hammerspoon"
+    # docker sbx: the nixpkgs build fails on the signed Sbx.app bundle
+    # (macOS App Management blocks nix-daemon), so use Docker's cask
+    "docker/tap/sbx"
 	];
 	masApps = {
           # "Xcode" = 497799835;
@@ -254,7 +262,7 @@
     darwinConfigurations."R5419" = nix-darwin.lib.darwinSystem {
       modules = [
         configuration
-	mac-app-util.darwinModules.default
+	# mac-app-util.darwinModules.default   # broken on macOS 27 (SBCL crash), see hraban/mac-app-util#45
 	nix-homebrew.darwinModules.nix-homebrew
 	{
           nix-homebrew = {
@@ -265,6 +273,7 @@
               "homebrew/homebrew-core" = homebrew-core;
 	      "homebrew/homebrew-cask" = homebrew-cask;
 	      "modem-dev/homebrew-tap" = homebrew-hunk;
+	      "docker/homebrew-tap" = homebrew-docker;
 	    };
 	    mutableTaps = false;
 	  };
